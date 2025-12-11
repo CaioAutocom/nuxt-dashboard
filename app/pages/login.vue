@@ -1,47 +1,14 @@
 <script setup lang="ts">
 import type { Tenant, UsuarioLoginResponse } from '~/core/schemas/auth/authLogin.schema'
-import type { TreeItemSelectEvent, TreeItem } from 'reka-ui'
+import type { TreeItemSelectEvent } from 'reka-ui'
+import type { TreeItem } from '@nuxt/ui'
+
+definePageMeta({
+  layout: false
+})
 
 const router = useRouter()
 const toast = useToast()
-
-const data = ref([
-  {
-    id: '4600',
-    date: '2024-03-11T15:30:00',
-    status: 'paid',
-    email: 'james.anderson@example.com',
-    amount: 594
-  },
-  {
-    id: '4599',
-    date: '2024-03-11T10:10:00',
-    status: 'failed',
-    email: 'mia.white@example.com',
-    amount: 276
-  },
-  {
-    id: '4598',
-    date: '2024-03-11T08:50:00',
-    status: 'refunded',
-    email: 'william.brown@example.com',
-    amount: 315
-  },
-  {
-    id: '4597',
-    date: '2024-03-10T19:45:00',
-    status: 'paid',
-    email: 'emma.davis@example.com',
-    amount: 529
-  },
-  {
-    id: '4596',
-    date: '2024-03-10T15:55:00',
-    status: 'paid',
-    email: 'ethan.harris@example.com',
-    amount: 639
-  }
-])
 
 // Dados do formulário
 const credentials = reactive({
@@ -60,35 +27,12 @@ const dadosUsuario = ref<{ id: string; nome: string; administrador: boolean } | 
 const etapa = ref<'login' | 'tenant'>('login')
 const loading = ref(false)
 
-const items: TreeItem[] = [
-  {
-    label: 'app',
-    defaultExpanded: true,
-    children: [
-      {
-        label: 'composables',
-        children: [{ label: 'useAuth.ts' }, { label: 'useUser.ts' }]
-      },
-      {
-        label: 'components',
-        defaultExpanded: true,
-        children: [{ label: 'Card.vue' }, { label: 'Button.vue' }]
-      }
-    ]
-  },
-  { label: 'app.vue' },
-  { label: 'nuxt.config.ts' }
-]
-
-const value = ref<typeof items>([])
-
 function onSelect(e: TreeItemSelectEvent<TreeItem>) {
   if (e.detail.originalEvent.type === 'click') {
     e.preventDefault()
   }
 }
 
-// 1️⃣ PRELOGIN → valida credenciais e retorna tenants
 async function prelogin() {
   loading.value = true
   try {
@@ -123,7 +67,6 @@ async function prelogin() {
   }
 }
 
-// 2️⃣ LOGIN FINAL → gera token e cria sessão HttpOnly
 async function loginFinal() {
   if (!selectedTenant.value) {
     toast.add({
@@ -153,7 +96,7 @@ async function loginFinal() {
     })
 
     // Redireciona para o dashboard
-    router.push('/')
+    await navigateTo('/')
   } catch (err: any) {
     toast.add({
       title: 'Erro ao autenticar',
@@ -171,7 +114,6 @@ const { fetch: fetchUserSession } = useUserSession()
 
 <template>
   <div class="relative min-h-screen flex items-center justify-center px-4 py-8 sm:px-6 lg:px-8">
-    <!-- 💠 Etapa 1: Login com email e senha -->
     <UCard v-if="etapa === 'login'" class="w-full max-w-sm sm:max-w-md">
       <template #header>
         <div class="flex flex-col sm:flex-row items-center gap-2 sm:gap-3">
@@ -194,51 +136,9 @@ const { fetch: fetchUserSession } = useUserSession()
         <UButton type="submit" block size="md" class="sm:size-lg" :loading="loading" :disabled="loading || !credentials.email || !credentials.senha">
           {{ loading ? 'Validando...' : 'Continuar' }}
         </UButton>
-
-        <!-- Componentes de exemplo: tree e grid -->
-        <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 mt-6">
-          <!-- tree -->
-          <UCollapsible class="flex flex-col gap-2 w-full sm:w-48">
-            <UButton label="Categoria superior" color="neutral" variant="subtle" trailing-icon="i-lucide-chevron-down" block size="sm" />
-
-            <template #content>
-              <UTree v-model="value" :as="{ link: 'div' }" :items="items" @select="onSelect">
-                <template #item-leading="{ selected, indeterminate, handleSelect }">
-                  <UCheckbox :model-value="indeterminate ? 'indeterminate' : selected" tabindex="-1" @change="handleSelect" @click.stop />
-                </template>
-              </UTree>
-            </template>
-          </UCollapsible>
-
-          <!-- grid -->
-          <UCollapsible class="flex flex-col gap-2 w-full sm:w-48">
-            <UButton label="Grid" color="neutral" variant="subtle" trailing-icon="i-lucide-chevron-down" block size="sm" />
-
-            <template #content>
-              <div class="overflow-x-auto">
-                <UTable :data="data" class="flex-1" />
-              </div>
-            </template>
-          </UCollapsible>
-        </div>
       </form>
-
-      <div class="mt-4">
-        <UPopover>
-          <UButton label="Open" color="neutral" variant="subtle" trailing-icon="i-lucide-chevron-down" size="sm" />
-
-          <template #content>
-            <UTree v-model="value" :as="{ link: 'div' }" :items="items" @select="onSelect">
-              <template #item-leading="{ selected, indeterminate, handleSelect }">
-                <UCheckbox :model-value="indeterminate ? 'indeterminate' : selected" tabindex="-1" @change="handleSelect" @click.stop />
-              </template>
-            </UTree>
-          </template>
-        </UPopover>
-      </div>
     </UCard>
 
-    <!-- 💠 Etapa 2: Seleção de Tenant -->
     <UCard v-else-if="etapa === 'tenant'" class="w-full max-w-sm sm:max-w-md">
       <template #header>
         <div class="flex flex-col sm:flex-row items-center gap-2 sm:gap-3">
