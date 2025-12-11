@@ -9,6 +9,10 @@ useSeoMeta({
 
 <template>
   <UDashboardPanel id="vitorMarkdown">
+    <template #header>
+      <HeaderVitor />
+    </template>
+
     <template #body>
       <ContentRenderer v-if="home" :value="home" />
       <div v-else>Markdown não encontrado...</div>

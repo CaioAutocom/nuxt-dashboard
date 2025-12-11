@@ -140,6 +140,10 @@ async function onSubmit(event: FormSubmitEvent<ProdutoFormDataSchema>) {
 
 <template>
   <UDashboardPanel id="vitorFormTeste">
+    <template #header>
+      <HeaderVitor />
+    </template>
+
     <template #body>
       <UForm :schema="produtoFormData" :state="produtoFormData" class="space-y-4">
         <!-- cabecalho -->

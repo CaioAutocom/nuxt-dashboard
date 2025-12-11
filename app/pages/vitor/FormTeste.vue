@@ -111,6 +111,10 @@ async function handleSubmitError(event: FormErrorEvent) {
 
 <template>
   <UDashboardPanel id="vitorFormTeste">
+    <template #header>
+      <HeaderVitor />
+    </template>
+
     <template #body>
       <section>
         <h1>Form teste</h1>
