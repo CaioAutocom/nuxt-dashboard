@@ -23,7 +23,6 @@ const items = [
 const navMenuItems = ref([
   {
     label: 'Vitor',
-    to: '/docs/getting-started',
     children: [
       {
         icon: 'i-lucide-search',
@@ -53,7 +52,6 @@ const navMenuItems = ref([
   },
   {
     label: 'Caio',
-    to: '/docs/composables',
     children: [
       {
         label: 'defineShortcuts',
