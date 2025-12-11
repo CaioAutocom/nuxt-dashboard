@@ -1,78 +1,78 @@
 <script setup lang="ts">
-import * as z from "zod";
-import type { FormSubmitEvent } from "@nuxt/ui";
+import * as z from 'zod'
+import type { FormSubmitEvent } from '@nuxt/ui'
 
 enum CondicaoProduto {
-  Novo = "Novo",
-  Usado = "Usado",
-  Recondicionado = "Recondicionado",
+  Novo = 'Novo',
+  Usado = 'Usado',
+  Recondicionado = 'Recondicionado'
 }
 
 enum GarantiaTipo {
-  Fabricante = "Fabricante",
-  Loja = "Loja",
-  SemGarantia = "SemGarantia",
+  Fabricante = 'Fabricante',
+  Loja = 'Loja',
+  SemGarantia = 'SemGarantia'
 }
 
 enum TipoProduto {
-  Simples = "Simples",
-  Kit = "Kit",
-  Variacoes = "Variacoes",
-  MateriaPrima = "MateriaPrima",
+  Simples = 'Simples',
+  Kit = 'Kit',
+  Variacoes = 'Variacoes',
+  MateriaPrima = 'MateriaPrima'
 }
 
 type ProdutoFormData = {
-  descricao?: string;
-  codigoGtinEan?: string;
-  codigoAlternativo: string;
-  codigoNcm: string;
-  codigoCest: string;
-  unidadeId: string;
-  tipoProduto: TipoProduto;
-  ativo: boolean;
+  descricao?: string
+  codigoGtinEan?: string
+  codigoAlternativo: string
+  codigoNcm: string
+  codigoCest: string
+  unidadeId: string
+  tipoProduto: TipoProduto
+  ativo: boolean
 
-  tabelaPrecoId: string;
-  precoCusto?: number;
-  precoCustoContabil?: number;
-  precoCustoMedio?: number;
-  lucroVistaPercentual?: number;
-  lucroPrazoPercentual?: number;
-  precoVista?: number;
-  precoPrazo?: number;
+  tabelaPrecoId: string
+  precoCusto?: number
+  precoCustoContabil?: number
+  precoCustoMedio?: number
+  lucroVistaPercentual?: number
+  lucroPrazoPercentual?: number
+  precoVista?: number
+  precoPrazo?: number
 
-  pesoLiquido?: number;
-  pesoBruto?: number;
-  largura?: number;
-  altura?: number;
-  profundidade?: number;
+  pesoLiquido?: number
+  pesoBruto?: number
+  largura?: number
+  altura?: number
+  profundidade?: number
 
-  controlaEstoque: boolean;
-  estoqueAtual?: number;
-  estoqueMin?: number;
-  estoqueMax?: number;
-  localizacao?: string;
+  controlaEstoque: boolean
+  estoqueAtual?: number
+  estoqueMin?: number
+  estoqueMax?: number
+  localizacao?: string
 
-  produtoCategoriaId: string;
-  condicao: CondicaoProduto;
-  garantiaTipo: GarantiaTipo;
-  garantiaDias: number;
-  fabricante?: string;
-  codigoFabricante: string;
+  produtoCategoriaId: string
+  condicao: CondicaoProduto
+  garantiaTipo: GarantiaTipo
+  garantiaDias: number
+  fabricante?: string
+  codigoFabricante: string
 
-  observacoes?: string;
-};
+  observacoes?: string
+}
 
 const produtoFormData: ProdutoFormData = reactive({
-  descricao: "",
-  codigoGtinEan: "",
-  codigoAlternativo: "",
-  codigoNcm: "",
-  codigoCest: "",
-  unidadeId: "",
+  descricao: '',
+  codigoGtinEan: '',
+  codigoAlternativo: '',
+  codigoNcm: '',
+  codigoCest: '',
+  unidadeId: '',
   tipoProduto: TipoProduto.Simples,
   ativo: true,
 
-  tabelaPrecoId: "",
+  tabelaPrecoId: '',
   precoCusto: 0,
   precoCustoContabil: 0,
   precoCustoMedio: 0,
@@ -91,95 +91,91 @@ const produtoFormData: ProdutoFormData = reactive({
   estoqueAtual: 0,
   estoqueMin: 0,
   estoqueMax: 0,
-  localizacao: "",
+  localizacao: '',
 
-  produtoCategoriaId: "",
+  produtoCategoriaId: '',
   condicao: CondicaoProduto.Novo,
   garantiaTipo: GarantiaTipo.Fabricante,
   garantiaDias: 0,
-  fabricante: "",
-  codigoFabricante: "",
+  fabricante: '',
+  codigoFabricante: '',
 
-  observacoes: "",
-});
+  observacoes: ''
+})
 
-type ProdutoFormDataSchema = z.output<typeof produtoFormData>;
+type ProdutoFormDataSchema = z.output<typeof produtoFormData>
 
 const tipoProduto = ref([
   {
-    label: "Simples",
-    value: "Simples",
+    label: 'Simples',
+    value: 'Simples'
   },
 
   {
-    label: "Kit",
-    value: "Kit",
+    label: 'Kit',
+    value: 'Kit'
   },
   {
-    label: "Matéria Prima",
-    value: "MateriaPrima",
+    label: 'Matéria Prima',
+    value: 'MateriaPrima'
   },
   {
-    label: "Variações",
-    value: "Variacoes",
-  },
-]);
+    label: 'Variações',
+    value: 'Variacoes'
+  }
+])
 
-const toast = useToast();
+const toast = useToast()
 
 async function onSubmit(event: FormSubmitEvent<ProdutoFormDataSchema>) {
   toast.add({
-    title: "Success",
-    description: "The form has been submitted.",
-    color: "success",
-  });
+    title: 'Success',
+    description: 'The form has been submitted.',
+    color: 'success'
+  })
 
-  console.log(event.data);
+  console.log(event.data)
 }
 </script>
 
 <template>
-  <UForm :schema="produtoFormData" :state="produtoFormData" class="space-y-4">
-    <!-- cabecalho -->
-    <UFormField label="Descrição" name="descricao">
-      <UInput v-model="produtoFormData.descricao" />
-    </UFormField>
+  <UDashboardPanel id="vitorFormTeste">
+    <template #body>
+      <UForm :schema="produtoFormData" :state="produtoFormData" class="space-y-4">
+        <!-- cabecalho -->
+        <UFormField label="Descrição" name="descricao">
+          <UInput v-model="produtoFormData.descricao" />
+        </UFormField>
 
-    <UFormField label="Código de Barras" name="codigoGtinEan">
-      <UInput v-model="produtoFormData.codigoGtinEan" />
-    </UFormField>
-    <UFormField label="Código de Barras" name="codigoGtinEan">
-      <UInput v-model="produtoFormData.codigoAlternativo" />
-    </UFormField>
+        <UFormField label="Código de Barras" name="codigoGtinEan">
+          <UInput v-model="produtoFormData.codigoGtinEan" />
+        </UFormField>
+        <UFormField label="Código de Barras" name="codigoGtinEan">
+          <UInput v-model="produtoFormData.codigoAlternativo" />
+        </UFormField>
 
-    <UFormField label="Código de Barras" name="codigoGtinEan">
-      <UInput v-model="produtoFormData.codigoNcm" />
-    </UFormField>
+        <UFormField label="Código de Barras" name="codigoGtinEan">
+          <UInput v-model="produtoFormData.codigoNcm" />
+        </UFormField>
 
-    <UFormField label="Código de Barras" name="codigoGtinEan">
-      <UInput v-model="produtoFormData.codigoCest" />
-    </UFormField>
+        <UFormField label="Código de Barras" name="codigoGtinEan">
+          <UInput v-model="produtoFormData.codigoCest" />
+        </UFormField>
 
-    <UFormField label="Tipo" name="unidadeId">
-      <USelectMenu
-        v-model="produtoFormData.unidadeId"
-        :items="['UN', 'KG', 'ML']"
-        class="w-48"
-      />
-    </UFormField>
+        <UFormField label="Tipo" name="unidadeId">
+          <USelectMenu v-model="produtoFormData.unidadeId" :items="['UN', 'KG', 'ML']" class="w-48" />
+        </UFormField>
 
-    <UFormField label="Tipo" name="tipoProduto">
-      <USelect
-        v-model="produtoFormData.tipoProduto"
-        :items="tipoProduto"
-        class="w-48"
-      />
-    </UFormField>
+        <UFormField label="Tipo" name="tipoProduto">
+          <USelect v-model="produtoFormData.tipoProduto" :items="tipoProduto" class="w-48" />
+        </UFormField>
 
-    <!-- dados gerais -->
-    <!-- dados complementares -->
-    <!-- observacoes -->
+        <!-- dados gerais -->
+        <!-- dados complementares -->
+        <!-- observacoes -->
 
-    <UButton type="submit"> Submit </UButton>
-  </UForm>
+        <UButton type="submit"> Submit </UButton>
+      </UForm>
+    </template>
+  </UDashboardPanel>
 </template>

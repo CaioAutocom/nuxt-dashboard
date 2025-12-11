@@ -1,179 +1,151 @@
 <script setup lang="ts">
-import * as z from "zod";
-import type { FormErrorEvent, FormSubmitEvent } from "@nuxt/ui";
+import * as z from 'zod'
+import type { FormErrorEvent, FormSubmitEvent } from '@nuxt/ui'
 
-const activeTab = ref(1);
+const activeTab = ref(1)
 
 const tabItems = [
   {
-    label: "sec1",
-    icon: "i-lucide-user",
-    slot: "sec1",
+    label: 'sec1',
+    icon: 'i-lucide-user',
+    slot: 'sec1'
   },
   {
-    label: "sec2",
-    icon: "i-lucide-lock",
-    slot: "sec2",
-  },
-];
+    label: 'sec2',
+    icon: 'i-lucide-lock',
+    slot: 'sec2'
+  }
+]
 
 enum GarantiaTipo {
-  Fabricante = "Fabricante",
-  Loja = "Loja",
-  SemGarantia = "SemGarantia",
+  Fabricante = 'Fabricante',
+  Loja = 'Loja',
+  SemGarantia = 'SemGarantia'
 }
 
 const schema = z
   .object({
     codigoAlternativo: z
       .string()
-      .min(1, "Código alternativo não pode ser vazio")
-      .max(50, "Código alternativo deve ter no máximo 50 caracteres")
-      .regex(
-        /^[a-zA-Z0-9\s]+$/,
-        "Código alternativo não pode conter caracteres especiais",
-      )
-      .describe("Código alternativo do Produto."),
+      .min(1, 'Código alternativo não pode ser vazio')
+      .max(50, 'Código alternativo deve ter no máximo 50 caracteres')
+      .regex(/^[a-zA-Z0-9\s]+$/, 'Código alternativo não pode conter caracteres especiais')
+      .describe('Código alternativo do Produto.'),
 
-    estoqueMax: z
-      .number()
-      .min(0, "Estoque máximo deve ser maior ou igual a 0")
-      .max(200)
-      .describe("Quantidade máxima permitida em estoque deste produto."),
+    estoqueMax: z.number().min(0, 'Estoque máximo deve ser maior ou igual a 0').max(200).describe('Quantidade máxima permitida em estoque deste produto.'),
 
-    estoqueMin: z
-      .number()
-      .min(0, "Estoque mínimo deve ser maior ou igual a 0")
-      .max(200)
-      .describe("Quantidade mínima permitida em estoque deste produto."),
+    estoqueMin: z.number().min(0, 'Estoque mínimo deve ser maior ou igual a 0').max(200).describe('Quantidade mínima permitida em estoque deste produto.'),
 
-    garantiaTipo: z
-      .enum(GarantiaTipo)
-      .describe("Enum contendo o tipo de garantia do produto."),
+    garantiaTipo: z.enum(GarantiaTipo).describe('Enum contendo o tipo de garantia do produto.'),
 
-    garantiaDias: z
-      .number()
-      .int("Dias de garantia deve ser um número inteiro")
-      .min(0, "Dias de garantia não pode ser negativo")
-      .max(99999)
-      .describe("Período em dias da garantia."),
+    garantiaDias: z.number().int('Dias de garantia deve ser um número inteiro').min(0, 'Dias de garantia não pode ser negativo').max(99999).describe('Período em dias da garantia.')
   })
   .refine((data) => data.estoqueMax >= data.estoqueMin, {
-    message: "Estoque máximo deve ser maior que estoque mínimo",
-    path: ["estoqueMax"],
+    message: 'Estoque máximo deve ser maior que estoque mínimo',
+    path: ['estoqueMax']
   })
   .refine(
     (data) => {
       if (data.garantiaTipo === GarantiaTipo.SemGarantia) {
-        return data.garantiaDias === 0;
+        return data.garantiaDias === 0
       }
 
-      return data.garantiaDias > 0;
+      return data.garantiaDias > 0
     },
     {
-      message:
-        'Dias de garantia deve ser 0 se tipo for "SemGarantia" e maior que 0 caso contrário',
-      path: ["garantiaDias"],
-    },
-  );
+      message: 'Dias de garantia deve ser 0 se tipo for "SemGarantia" e maior que 0 caso contrário',
+      path: ['garantiaDias']
+    }
+  )
 
-type Schema = z.output<typeof schema>;
+type Schema = z.output<typeof schema>
 
 const state = reactive<Partial<Schema>>({
   codigoAlternativo: undefined,
   estoqueMax: undefined,
   estoqueMin: undefined,
   garantiaTipo: GarantiaTipo.Fabricante,
-  garantiaDias: undefined,
-});
+  garantiaDias: undefined
+})
 
-const toast = useToast();
+const toast = useToast()
 
-const garantiaTipoDataSource = ref(Object.values(GarantiaTipo));
+const garantiaTipoDataSource = ref(Object.values(GarantiaTipo))
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
   toast.add({
-    title: "Success",
-    description: "The form has been submitted.",
-    color: "success",
-  });
+    title: 'Success',
+    description: 'The form has been submitted.',
+    color: 'success'
+  })
 
-  console.log(event);
+  console.log(event)
 }
 
 function findParentTabPanel(el: HTMLElement | null) {
   while (el) {
-    if (el.hasAttribute("data-slot")) {
-      const slot = el.getAttribute("data-slot");
-      return slot; // e.g. "sec1", "sec2"
+    if (el.hasAttribute('data-slot')) {
+      const slot = el.getAttribute('data-slot')
+      return slot // e.g. "sec1", "sec2"
     }
-    el = el.parentElement;
+    el = el.parentElement
   }
-  return null;
+  return null
 }
 
 async function handleSubmitError(event: FormErrorEvent) {
-  if (!event?.errors?.[0]?.id) return;
+  if (!event?.errors?.[0]?.id) return
 
-  const el = document.getElementById(event.errors[0].id);
-  if (!el) return;
+  const el = document.getElementById(event.errors[0].id)
+  if (!el) return
 
   // const slot = findParentTabPanel(el);
   // if (slot) {
   //   activeTab.value = tabItems.findIndex((t) => t.slot === slot);
   // }
 
-  el.scrollIntoView({ block: "center", behavior: "instant" });
-  setTimeout(() => el.focus(), 300);
+  el.scrollIntoView({ block: 'center', behavior: 'instant' })
+  setTimeout(() => el.focus(), 300)
 }
 </script>
 
 <template>
-  <section>
-    <h1>Form teste</h1>
-    <USeparator class="h-10" />
+  <UDashboardPanel id="vitorFormTeste">
+    <template #body>
+      <section>
+        <h1>Form teste</h1>
+        <USeparator class="h-10" />
 
-    <UForm
-      :schema="schema"
-      :state="state"
-      class="space-y-4"
-      @submit="onSubmit"
-      @error="handleSubmitError"
-    >
-      <UTabs :items="tabItems">
-        <template #sec1>
-          <UFormField label="asdf" name="codigoAlternativo">
-            <UInput v-model="state.codigoAlternativo" />
-          </UFormField>
+        <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit" @error="handleSubmitError">
+          <UTabs :items="tabItems">
+            <template #sec1>
+              <UFormField label="asdf" name="codigoAlternativo">
+                <UInput v-model="state.codigoAlternativo" />
+              </UFormField>
 
-          <UFormField label="estoque min" name="estoqueMin">
-            <UInputNumber v-model="state.estoqueMin" />
-          </UFormField>
+              <UFormField label="estoque min" name="estoqueMin">
+                <UInputNumber v-model="state.estoqueMin" />
+              </UFormField>
 
-          <UFormField label="estoque max" name="estoqueMax">
-            <UInputNumber v-model="state.estoqueMax" />
-          </UFormField>
-        </template>
+              <UFormField label="estoque max" name="estoqueMax">
+                <UInputNumber v-model="state.estoqueMax" />
+              </UFormField>
+            </template>
 
-        <template #sec2>
-          <UFormField label="garantia tipo" name="garantiaTipo">
-            <USelect
-              v-model="state.garantiaTipo"
-              :items="garantiaTipoDataSource"
-            />
-          </UFormField>
+            <template #sec2>
+              <UFormField label="garantia tipo" name="garantiaTipo">
+                <USelect v-model="state.garantiaTipo" :items="garantiaTipoDataSource" />
+              </UFormField>
 
-          <UFormField label="garantia dias " name="garantiaDias">
-            <UInputNumber
-              v-model="state.garantiaDias"
-              :increment="false"
-              :decrement="false"
-            />
-          </UFormField>
-        </template>
-      </UTabs>
+              <UFormField label="garantia dias " name="garantiaDias">
+                <UInputNumber v-model="state.garantiaDias" :increment="false" :decrement="false" />
+              </UFormField>
+            </template>
+          </UTabs>
 
-      <UButton type="submit"> Submit </UButton>
-    </UForm>
-  </section>
+          <UButton type="submit"> Submit </UButton>
+        </UForm>
+      </section>
+    </template>
+  </UDashboardPanel>
 </template>
