@@ -19,6 +19,7 @@
     "@vueuse/nuxt": "^13.9.0",
     "date-fns": "^4.1.0",
     "nuxt": "^4.2.2",
+    "nuxt-auth-utils": "0.5.26",
     "zod": "^4.1.13"
   },
   "devDependencies": {
