@@ -13,10 +13,12 @@
   "dependencies": {
     "@iconify-json/lucide": "^1.2.75",
     "@iconify-json/simple-icons": "^1.2.60",
+    "@nuxt/content": "^3.9.0",
     "@nuxt/ui": "^4.2.1",
     "@unovis/ts": "^1.6.2",
     "@unovis/vue": "^1.6.2",
     "@vueuse/nuxt": "^13.9.0",
+    "better-sqlite3": "^12.5.0",
     "date-fns": "^4.1.0",
     "nuxt": "^4.2.2",
     "nuxt-auth-utils": "0.5.26",
