@@ -23,6 +23,7 @@ const items = [
 const navMenuItems = ref([
   {
     label: 'Vitor',
+    to: 'vitor/',
     children: [
       {
         icon: 'i-lucide-search',
@@ -91,7 +92,7 @@ const period = ref<Period>('daily')
         </template>
 
         <template #right>
-          <UNavigationMenu :items="navMenuItems" class="w-100" />
+          <UNavigationMenu :items="navMenuItems" class="w-150 justify-end" />
 
           <UTooltip text="Notifications" :shortcuts="['N']">
             <UButton color="neutral" variant="ghost" square @click="isNotificationsSlideoverOpen = true">
