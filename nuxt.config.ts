@@ -9,7 +9,6 @@ export default defineNuxtConfig({
     port: 5173
   },
   css: ['~/assets/css/main.css'],
-
   routeRules: {
     '/api/**': {
       cors: true
@@ -26,7 +25,7 @@ export default defineNuxtConfig({
       }
     }
   },
-
+  sourcemap: true,
   app: {
     head: {
       link: [
