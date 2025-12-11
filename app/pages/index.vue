@@ -23,39 +23,36 @@ const items = [
 const navMenuItems = ref([
   {
     label: 'Vitor',
-    icon: 'i-mdi:sunglasses',
     to: '/docs/getting-started',
     children: [
       {
-        label: 'Introduction',
-        description: 'Fully styled and customizable components for Nuxt.',
-        icon: 'i-lucide-house'
+        icon: 'i-lucide-search',
+        label: 'Pesquisa',
+        description: 'Avaliação feita sobre frameworks Nuxt, Nuxt UI e PrimeVue contendo seus pros e contras',
+        to: 'vitor/Markdown'
       },
       {
-        label: 'Installation',
-        description: 'Learn how to install and configure Nuxt UI in your application.',
-        icon: 'i-lucide-cloud-download'
+        icon: 'i-streamline-ultimate:task-list-approve-bold',
+        label: 'Validação de formulário',
+        description: 'Testa integração dos esquemas zod com o formulário do Nuxt UI',
+        to: 'vitor/FormTeste'
       },
       {
-        label: 'Icons',
-        icon: 'i-lucide-smile',
-        description: 'You have nothing to do, @nuxt/icon will handle it automatically.'
-      },
-      {
-        label: 'Colors',
-        icon: 'i-lucide-swatch-book',
-        description: 'Choose a primary and a neutral color from your Tailwind CSS theme.'
-      },
-      {
-        label: 'Theme',
-        icon: 'i-lucide-cog',
-        description: 'You can customize components by using the `class` / `ui` props or in your app.config.ts.'
+        icon: 'i-lucide-grid',
+        label: 'Grids',
+        description: 'Testa a grid do Nuxt UI...',
+        to: 'vitor/Grids'
       }
+      // {
+      //   icon: 'i-lucide-file-box',
+      //   label: 'Formulário de produto',
+      //   description: 'Recria o formulário de produto usando Nuxt UI',
+      //   to: 'vitor/FormProduto'
+      // }
     ]
   },
   {
     label: 'Caio',
-    icon: 'i-material-symbols:delete-outline-rounded',
     to: '/docs/composables',
     children: [
       {
@@ -93,10 +90,11 @@ const period = ref<Period>('daily')
       <UDashboardNavbar title="Home" :ui="{ right: 'gap-3' }">
         <template #leading>
           <UDashboardSidebarCollapse />
-          <UNavigationMenu :items="navMenuItems" />
         </template>
 
         <template #right>
+          <UNavigationMenu :items="navMenuItems" class="w-100" />
+
           <UTooltip text="Notifications" :shortcuts="['N']">
             <UButton color="neutral" variant="ghost" square @click="isNotificationsSlideoverOpen = true">
               <UChip color="error" inset>
