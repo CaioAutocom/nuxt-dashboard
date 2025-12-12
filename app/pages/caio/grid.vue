@@ -4,6 +4,7 @@ import type { NavigationMenuItem, TableColumn, TableRow } from '@nuxt/ui'
 import type { Row } from '@tanstack/vue-table'
 import { useClipboard } from '@vueuse/core'
 import type { PessoaBuscarTodosSimplificadoPaginadoResponseType, PessoaBuscarTodosSimplificadoRequestType } from '~/core/schemas/pessoas/pessoa.schema'
+import { getPaginationRowModel } from '@tanstack/vue-table'
 
 const UButton = resolveComponent('UButton')
 const UBadge = resolveComponent('UBadge')
@@ -189,6 +190,11 @@ if (error.value) {
     icon: 'i-lucide-triangle-alert'
   })
 }
+
+const pagination = ref({
+  pageIndex: 0,
+  pageSize: data.value?.pageSize ?? 20
+})
 </script>
 
 <template>
@@ -207,6 +213,7 @@ if (error.value) {
     </template>
     <template #body>
       <UTable
+        v-model:pagination="pagination"
         :data="data?.items ?? []"
         :columns="columns"
         class="flex-1"
@@ -217,8 +224,20 @@ if (error.value) {
             anchor.y = ev.clientY
           }
         "
+        :pagination-options="{
+          getPaginationRowModel: getPaginationRowModel()
+        }"
         @hover="onHover"
       />
+
+      <div class="flex justify-start border-t border-default pt-4 px-4">
+        <UPagination
+          :page="(table?.tableApi?.getState().pagination.pageIndex || 0) + 1"
+          :items-per-page="table?.tableApi?.getState().pagination.pageSize"
+          :total="table?.tableApi?.getFilteredRowModel().rows.length"
+          @update:page="(p) => table?.tableApi?.setPageIndex(p - 1)"
+        />
+      </div>
     </template>
   </UDashboardPanel>
 </template>
