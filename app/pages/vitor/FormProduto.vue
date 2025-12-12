@@ -145,34 +145,42 @@ async function onSubmit(event: FormSubmitEvent<ProdutoFormDataSchema>) {
     </template>
 
     <template #body>
+      <p class="text-red-500 border p-4">Ainda em construção...</p>
+
       <UForm :schema="produtoFormData" :state="produtoFormData" class="space-y-4">
         <!-- cabecalho -->
-        <UFormField label="Descrição" name="descricao">
-          <UInput v-model="produtoFormData.descricao" />
-        </UFormField>
+        <div class="flex gap-8">
+          <div class="border border-dashed px-4 w-50 min-h-max content-center text-center">Adicionar Imagem</div>
+          <div class="grid grid-cols-6 gap-4">
+            <UFormField label="Descrição" name="descricao" class="col-span-4">
+              <UInput v-model="produtoFormData.descricao" class="w-full" />
+            </UFormField>
 
-        <UFormField label="Código de Barras" name="codigoGtinEan">
-          <UInput v-model="produtoFormData.codigoGtinEan" />
-        </UFormField>
-        <UFormField label="Código de Barras" name="codigoGtinEan">
-          <UInput v-model="produtoFormData.codigoAlternativo" />
-        </UFormField>
+            <UFormField label="Código de Barras" name="codigoGtinEan" class="col-span-2">
+              <UInput v-model="produtoFormData.codigoGtinEan" class="w-full" />
+            </UFormField>
 
-        <UFormField label="Código de Barras" name="codigoGtinEan">
-          <UInput v-model="produtoFormData.codigoNcm" />
-        </UFormField>
+            <UFormField label="Código Alternativo" name="codigoAlternativo" class="col-span-2">
+              <UInput v-model="produtoFormData.codigoAlternativo" class="w-full" />
+            </UFormField>
 
-        <UFormField label="Código de Barras" name="codigoGtinEan">
-          <UInput v-model="produtoFormData.codigoCest" />
-        </UFormField>
+            <UFormField label="NCM" name="codigoNcm">
+              <UInput v-model="produtoFormData.codigoNcm" class="w-full" />
+            </UFormField>
 
-        <UFormField label="Tipo" name="unidadeId">
-          <USelectMenu v-model="produtoFormData.unidadeId" :items="['UN', 'KG', 'ML']" class="w-48" />
-        </UFormField>
+            <UFormField label="CEST" name="codigoCest">
+              <UInput v-model="produtoFormData.codigoCest" class="w-full" />
+            </UFormField>
 
-        <UFormField label="Tipo" name="tipoProduto">
-          <USelect v-model="produtoFormData.tipoProduto" :items="tipoProduto" class="w-48" />
-        </UFormField>
+            <UFormField label="Unidade" name="unidadeId">
+              <USelectMenu v-model="produtoFormData.unidadeId" :items="['UN', 'KG', 'ML']" class="w-full" />
+            </UFormField>
+
+            <UFormField label="Tipo" name="tipoProduto">
+              <USelect v-model="produtoFormData.tipoProduto" :items="tipoProduto" class="w-full" />
+            </UFormField>
+          </div>
+        </div>
 
         <!-- dados gerais -->
         <!-- dados complementares -->
