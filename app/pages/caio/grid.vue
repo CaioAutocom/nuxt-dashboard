@@ -4,7 +4,6 @@ import type { NavigationMenuItem, TableColumn, TableRow } from '@nuxt/ui'
 import type { Row } from '@tanstack/vue-table'
 import { useClipboard } from '@vueuse/core'
 import type { PessoaBuscarTodosSimplificadoPaginadoResponseType, PessoaBuscarTodosSimplificadoRequestType } from '~/core/schemas/pessoas/pessoa.schema'
-import { getPaginationRowModel } from '@tanstack/vue-table'
 
 const UButton = resolveComponent('UButton')
 const UBadge = resolveComponent('UBadge')
@@ -172,14 +171,18 @@ const links = [
   ]
 ] satisfies NavigationMenuItem[][]
 
-const params: PessoaBuscarTodosSimplificadoRequestType = {
-  NumeroDaPagina: 1,
-  TamanhoDaPagina: 20
-}
+const page = ref(1)
+const pageSize = ref(20)
+
+const params = computed<PessoaBuscarTodosSimplificadoRequestType>(() => ({
+  NumeroDaPagina: page.value,
+  TamanhoDaPagina: pageSize.value
+}))
 
 const { data, error } = await useFetch<PessoaBuscarTodosSimplificadoPaginadoResponseType>('/api/pessoas/buscarTodosSimplificado', {
   method: 'GET',
-  params
+  params,
+  watch: [params]
 })
 
 if (error.value) {
@@ -191,9 +194,10 @@ if (error.value) {
   })
 }
 
-const pagination = ref({
-  pageIndex: 0,
-  pageSize: data.value?.pageSize ?? 20
+watchEffect(() => {
+  if (data.value?.pageSize) {
+    pageSize.value = data.value.pageSize
+  }
 })
 </script>
 
@@ -213,7 +217,6 @@ const pagination = ref({
     </template>
     <template #body>
       <UTable
-        v-model:pagination="pagination"
         :data="data?.items ?? []"
         :columns="columns"
         class="flex-1"
@@ -224,19 +227,11 @@ const pagination = ref({
             anchor.y = ev.clientY
           }
         "
-        :pagination-options="{
-          getPaginationRowModel: getPaginationRowModel()
-        }"
         @hover="onHover"
       />
 
       <div class="flex justify-start border-t border-default pt-4 px-4">
-        <UPagination
-          :page="(table?.tableApi?.getState().pagination.pageIndex || 0) + 1"
-          :items-per-page="table?.tableApi?.getState().pagination.pageSize"
-          :total="table?.tableApi?.getFilteredRowModel().rows.length"
-          @update:page="(p) => table?.tableApi?.setPageIndex(p - 1)"
-        />
+        <UPagination :page="page" :items-per-page="pageSize" :total="data?.totalItems ?? 0" @update:page="(p) => (page = p)" />
       </div>
     </template>
   </UDashboardPanel>
