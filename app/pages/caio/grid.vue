@@ -179,7 +179,7 @@ const params = computed<PessoaBuscarTodosSimplificadoRequestType>(() => ({
   TamanhoDaPagina: pageSize.value
 }))
 
-const { data, error } = await useFetch<PessoaBuscarTodosSimplificadoPaginadoResponseType>('/api/pessoas/buscarTodosSimplificado', {
+const { data, error, status } = await useFetch<PessoaBuscarTodosSimplificadoPaginadoResponseType>('/api/pessoas/buscarTodosSimplificado', {
   method: 'GET',
   params,
   watch: [params]
@@ -218,9 +218,11 @@ watchEffect(() => {
     <template #body>
       <UTable
         :data="data?.items ?? []"
+        :loading:="status === 'loading'"
+        loading-color="primary"
         :columns="columns"
         class="flex-1"
-        :ui="{ tbody: '[&>tr:hover>td]:bg-primary/10 dark:[&>tr:hover>td]:bg-primary/15' }"
+        :ui="{ tbody: '[&>tr:hover>td]:bg-primary/10 [&>tr:hover>td]:cursor-pointer  dark:[&>tr:hover>td]:bg-primary/15 ' }"
         @pointermove="
           (ev: PointerEvent) => {
             anchor.x = ev.clientX
@@ -231,7 +233,15 @@ watchEffect(() => {
       />
 
       <div class="flex justify-start border-t border-default pt-4 px-4">
-        <UPagination :page="page" :items-per-page="pageSize" :total="data?.totalItems ?? 0" @update:page="(p) => (page = p)" />
+        <UPagination
+          :page="page"
+          :items-per-page="pageSize"
+          :total="data?.totalItems ?? 0"
+          @update:page="(p) => (page = p)"
+          :ui="{
+            item: 'cursor-pointer'
+          }"
+        />
       </div>
     </template>
   </UDashboardPanel>
