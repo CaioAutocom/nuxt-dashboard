@@ -15,25 +15,25 @@
             icon: 'i-lucide-search',
             title: 'Pesquisa',
             description: 'Avaliação feita sobre frameworks Nuxt, Nuxt UI e PrimeVue contendo seus pros e contras',
-            to: 'vitor/Markdown'
+            to: '/vitor/Markdown'
           },
           {
             icon: 'i-streamline-ultimate:task-list-approve-bold',
             title: 'Validação de formulário',
             description: 'Testa integração dos esquemas zod com o formulário do Nuxt UI',
-            to: 'vitor/FormTeste'
+            to: '/vitor/FormTeste'
           },
           {
             icon: 'i-lucide-grid',
             title: 'Grids',
             description: 'Testa a grid do Nuxt UI...',
-            to: 'vitor/Grids'
+            to: '/vitor/Grids'
           },
           {
             icon: 'i-lucide-file-box',
             title: 'Formulário de produto',
             description: 'Recria o formulário de produto usando Nuxt UI',
-            to: 'vitor/FormProduto'
+            to: '/vitor/FormProduto'
           }
         ]"
       />

@@ -145,7 +145,7 @@ async function onSubmit(event: FormSubmitEvent<ProdutoFormDataSchema>) {
     </template>
 
     <template #body>
-      <UForm :schema="produtoFormData" :state="produtoFormData" class="space-y-4 2xl:px-50 lg:px-10">
+      <UForm :state="produtoFormData" class="space-y-4 2xl:px-50 lg:px-10">
         <p class="text-red-500 border p-4 mb-4">Ainda em construção...</p>
 
         <!-- cabecalho -->
