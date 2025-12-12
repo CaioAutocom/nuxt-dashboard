@@ -54,22 +54,10 @@ const navMenuItems = ref([
     label: 'Caio',
     children: [
       {
-        label: 'defineShortcuts',
+        label: 'Grid',
         icon: 'i-lucide-file-text',
-        description: 'Define shortcuts for your application.',
-        to: '/docs/composables/define-shortcuts'
-      },
-      {
-        label: 'useOverlay',
-        icon: 'i-lucide-file-text',
-        description: 'Display a modal/slideover within your application.',
-        to: '/docs/composables/use-overlay'
-      },
-      {
-        label: 'useToast',
-        icon: 'i-lucide-file-text',
-        description: 'Display a toast within your application.',
-        to: '/docs/composables/use-toast'
+        description: 'Grid',
+        to: '/caio/grid'
       }
     ]
   }
@@ -91,7 +79,7 @@ const period = ref<Period>('daily')
         </template>
 
         <template #right>
-          <UNavigationMenu :items="navMenuItems" class="w-100" />
+          <UNavigationMenu :items="navMenuItems" class="justify-end w-150" />
 
           <UTooltip text="Notifications" :shortcuts="['N']">
             <UButton color="neutral" variant="ghost" square @click="isNotificationsSlideoverOpen = true">
