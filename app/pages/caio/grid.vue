@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { h, resolveComponent } from 'vue'
-import type { NavigationMenuItem, TableColumn } from '@nuxt/ui'
+import type { NavigationMenuItem, TableColumn, TableRow } from '@nuxt/ui'
 import type { Row } from '@tanstack/vue-table'
 import { useClipboard } from '@vueuse/core'
 import type { PessoaBuscarTodosSimplificadoPaginadoResponseType, PessoaBuscarTodosSimplificadoRequestType } from '~/core/schemas/pessoas/pessoa.schema'
@@ -24,9 +24,31 @@ export interface Pessoa {
 }
 const columns: TableColumn<Pessoa>[] = [
   {
-    accessorKey: 'id',
-    header: '#',
-    cell: ({ row }) => `#${row.getValue('id')}`
+    id: 'actions',
+    cell: ({ row }) => {
+      return h(
+        'div',
+        { class: 'text-start w-1' },
+        h(
+          UDropdownMenu,
+          {
+            content: {
+              align: 'start'
+            },
+            items: getRowItems(row),
+            'aria-label': 'Actions dropdown'
+          },
+          () =>
+            h(UButton, {
+              icon: 'i-lucide-ellipsis',
+              color: 'neutral',
+              variant: 'ghost',
+              class: 'ml-auto',
+              'aria-label': 'Actions dropdown'
+            })
+        )
+      )
+    }
   },
   {
     accessorKey: 'idAlternativo',
@@ -79,35 +101,19 @@ const columns: TableColumn<Pessoa>[] = [
       const label = ativo ? 'Ativo' : 'Inativo'
       return h(UBadge, { class: 'capitalize', variant: 'subtle', color }, () => label)
     }
-  },
-  {
-    id: 'actions',
-    cell: ({ row }) => {
-      return h(
-        'div',
-        { class: 'text-right' },
-        h(
-          UDropdownMenu,
-          {
-            content: {
-              align: 'end'
-            },
-            items: getRowItems(row),
-            'aria-label': 'Actions dropdown'
-          },
-          () =>
-            h(UButton, {
-              icon: 'i-lucide-ellipsis-vertical',
-              color: 'neutral',
-              variant: 'ghost',
-              class: 'ml-auto',
-              'aria-label': 'Actions dropdown'
-            })
-        )
-      )
-    }
   }
 ]
+
+const anchor = ref({ x: 0, y: 0 })
+
+const open = ref(false)
+const selectedRow = ref<TableRow<Pessoa> | null>(null)
+
+function onHover(_e: Event, row: TableRow<Pessoa> | null) {
+  selectedRow.value = row
+
+  open.value = !!row
+}
 
 function getRowItems(row: Row<Pessoa>) {
   return [
@@ -201,7 +207,18 @@ if (error.value) {
     </template>
 
     <template #body>
-      <UTable :data="data?.items ?? []" :columns="columns" class="flex-1" />
+      <UTable
+        :data="data?.items ?? []"
+        :columns="columns"
+        class="flex-1"
+        @pointermove="
+          (ev: PointerEvent) => {
+            anchor.x = ev.clientX
+            anchor.y = ev.clientY
+          }
+        "
+        @hover="onHover"
+      />
     </template>
   </UDashboardPanel>
 </template>

@@ -8,25 +8,23 @@ import {
 export default defineEventHandler(async (event): Promise<PessoaBuscarTodosSimplificadoPaginadoResponseType> => {
   try {
     const query = getQuery(event)
-
-    const requestResolved: PessoaBuscarTodosSimplificadoRequestType = pessoaBuscarTodasSimplificadoRequestSchema.parse(query)
+    const session = await getUserSession(event)
+    const apiToken = (session.secure as any)?.apiToken as string
+    // const requestResolved: PessoaBuscarTodosSimplificadoRequestType = pessoaBuscarTodasSimplificadoRequestSchema.parse(query)
 
     const respostaApi = await $fetch<PessoaBuscarTodosSimplificadoPaginadoResponseType>('https://app.esistem.com.br/api/v1/pessoa/buscar-todos-simplificado', {
       method: 'GET',
       headers: {
-        Authorization: `Bearer ${event.context.secure?.apiToken}`
+        Authorization: `Bearer ${apiToken}`
       },
-      params: requestResolved
+      params: query
     })
 
-    const responseResolved = pessoaBuscarTodosSimplificadoPaginadoResponseSchema.parse(respostaApi)
+    // const responseResolved = pessoaBuscarTodosSimplificadoPaginadoResponseSchema.parse(respostaApi)
 
-    return responseResolved
+    return respostaApi
   } catch (error) {
     console.error('[buscar-todos-simplificado]', error)
-    throw createError({
-      statusCode: 500,
-      statusMessage: 'Erro ao buscar pessoas'
-    })
+    throw error
   }
 })
