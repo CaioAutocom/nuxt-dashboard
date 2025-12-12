@@ -149,8 +149,8 @@ async function onSubmit(event: FormSubmitEvent<ProdutoFormDataSchema>) {
 
       <UForm :schema="produtoFormData" :state="produtoFormData" class="space-y-4">
         <!-- cabecalho -->
-        <div class="border border-red-400 flex gap-8">
-          <div class="border w-50 min-h-max content-center text-center">Adicionar Imagem</div>
+        <div class="flex gap-8">
+          <div class="border border-dashed px-4 w-50 min-h-max content-center text-center">Adicionar Imagem</div>
           <div class="grid grid-cols-6 gap-4">
             <UFormField label="Descrição" name="descricao" class="col-span-4">
               <UInput v-model="produtoFormData.descricao" class="w-full" />
