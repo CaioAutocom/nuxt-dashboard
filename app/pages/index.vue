@@ -42,13 +42,13 @@ const navMenuItems = ref([
         label: 'Grids',
         description: 'Testa a grid do Nuxt UI...',
         to: 'vitor/Grids'
+      },
+      {
+        icon: 'i-lucide-file-box',
+        label: 'Formulário de produto',
+        description: 'Recria o formulário de produto usando Nuxt UI',
+        to: 'vitor/FormProduto'
       }
-      // {
-      //   icon: 'i-lucide-file-box',
-      //   label: 'Formulário de produto',
-      //   description: 'Recria o formulário de produto usando Nuxt UI',
-      //   to: 'vitor/FormProduto'
-      // }
     ]
   },
   {
