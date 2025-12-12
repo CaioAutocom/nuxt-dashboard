@@ -23,6 +23,7 @@ const items = [
 const navMenuItems = ref([
   {
     label: 'Vitor',
+    to: 'vitor/',
     children: [
       {
         icon: 'i-lucide-search',

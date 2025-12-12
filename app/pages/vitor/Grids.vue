@@ -1,7 +1,15 @@
 <script setup lang="ts"></script>
 
 <template>
-  <GridFetchTeste />
-  <USeparator class="h-32" color="primary" />
-  <GridTeste />
+  <UDashboardPanel id="vitorGrids">
+    <template #header>
+      <HeaderVitor />
+    </template>
+
+    <template #body>
+      <GridFetchTeste />
+      <USeparator class="h-32" color="primary" />
+      <GridTeste />
+    </template>
+  </UDashboardPanel>
 </template>
