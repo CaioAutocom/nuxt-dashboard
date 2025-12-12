@@ -149,7 +149,7 @@ async function onSubmit(event: FormSubmitEvent<ProdutoFormDataSchema>) {
         <p class="text-red-500 border p-4 mb-4">Ainda em construção...</p>
 
         <!-- cabecalho -->
-        <div class="flex gap-8" v-if="false">
+        <div class="flex gap-8">
           <div class="border border-dashed px-4 w-50 min-h-max content-center text-center">Adicionar Imagem</div>
 
           <div class="grid grid-cols-6 gap-4 w-full">
@@ -184,8 +184,8 @@ async function onSubmit(event: FormSubmitEvent<ProdutoFormDataSchema>) {
         </div>
 
         <!-- tab dados gerais -->
-        <h1>Precificação</h1>
 
+        <h1>Precificação</h1>
         <div class="grid grid-cols-6 gap-4 w-full">
           <UFormField label="Tabela de Preço" name="tabelaPrecoId">
             <USelectMenu :items="['Tabela Padrão']" default-value="Tabela Padrão" class="w-full" disabled />
@@ -220,8 +220,57 @@ async function onSubmit(event: FormSubmitEvent<ProdutoFormDataSchema>) {
           </UFormField>
         </div>
 
-        <!-- dados complementares -->
+        <h1>Dimensões e Peso</h1>
+        <div class="flex gap-8">
+          <div class="grid grid-cols-4 gap-4 w-full">
+            <UFormField label="Peso Líquido" name="pesoLiquido">
+              <UInputNumber v-model="produtoFormData.pesoLiquido" class="w-full" :increment="false" :decrement="false" />
+            </UFormField>
 
+            <UFormField label="Peso Bruto" name="pesoBruto">
+              <UInputNumber v-model="produtoFormData.pesoBruto" class="w-full" :increment="false" :decrement="false" />
+            </UFormField>
+
+            <UFormField label="Largura" name="largura">
+              <UInputNumber v-model="produtoFormData.largura" class="w-full" :increment="false" :decrement="false" />
+            </UFormField>
+
+            <UFormField label="Altura" name="altura">
+              <UInputNumber v-model="produtoFormData.altura" class="w-full" :increment="false" :decrement="false" />
+            </UFormField>
+
+            <UFormField label="Profundidade" name="profundidade">
+              <UInputNumber v-model="produtoFormData.profundidade" class="w-full" :increment="false" :decrement="false" />
+            </UFormField>
+          </div>
+
+          <div class="border px-4 w-50 min-h-max content-center text-center">Imagem do cubo...</div>
+        </div>
+
+        <h1>Estoque</h1>
+        <div class="grid grid-cols-5 gap-4 w-full">
+          <UFormField name="controlaEstoque" help="Acompanhamento da movimentação de estoque.">
+            <UCheckbox v-model="produtoFormData.controlaEstoque" label="Controlar Estoque" />
+          </UFormField>
+
+          <UFormField label="Estoque Atual" name="estoqueAtual" help="Estoque atual do produto no momento do cadastro.">
+            <UInputNumber v-model="produtoFormData.estoqueAtual" class="w-full" :increment="false" :decrement="false" />
+          </UFormField>
+
+          <UFormField label="Estoque Mínimo" name="estoqueMin" help="Quantidade mínima do produto no estoque.">
+            <UInputNumber v-model="produtoFormData.estoqueMin" class="w-full" :increment="false" :decrement="false" />
+          </UFormField>
+
+          <UFormField label="Estoque Máximo" name="estoqueMax" help="Quantidade máxima do produto no estoque.">
+            <UInputNumber v-model="produtoFormData.estoqueMax" class="w-full" :increment="false" :decrement="false" />
+          </UFormField>
+
+          <UFormField label="Localização" name="localizacao" help="Localização física do estoque.">
+            <UInput v-model="produtoFormData.localizacao" class="w-full" />
+          </UFormField>
+        </div>
+
+        <!-- dados complementares -->
         <!-- observacoes -->
 
         <UButton type="submit"> Submit </UButton>
