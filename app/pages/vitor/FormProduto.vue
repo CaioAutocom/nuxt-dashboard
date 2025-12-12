@@ -149,7 +149,7 @@ async function onSubmit(event: FormSubmitEvent<ProdutoFormDataSchema>) {
         <p class="text-red-500 border p-4 mb-4">Ainda em construção...</p>
 
         <!-- cabecalho -->
-        <div class="flex gap-8">
+        <div class="flex gap-8" v-if="false">
           <div class="border border-dashed px-4 w-50 min-h-max content-center text-center">Adicionar Imagem</div>
 
           <div class="grid grid-cols-6 gap-4 w-full">
@@ -183,8 +183,45 @@ async function onSubmit(event: FormSubmitEvent<ProdutoFormDataSchema>) {
           </div>
         </div>
 
-        <!-- dados gerais -->
+        <!-- tab dados gerais -->
+        <h1>Precificação</h1>
+
+        <div class="grid grid-cols-6 gap-4 w-full">
+          <UFormField label="Tabela de Preço" name="tabelaPrecoId">
+            <USelectMenu :items="['Tabela Padrão']" default-value="Tabela Padrão" class="w-full" disabled />
+          </UFormField>
+
+          <UFormField label="Preço de Custo (R$)" name="precoCusto">
+            <UInput v-model="produtoFormData.precoCusto" class="w-full" />
+          </UFormField>
+
+          <UFormField label="Custo Contábil (R$)" name="precoCustoContabil">
+            <UInput v-model="produtoFormData.precoCustoContabil" class="w-full" />
+          </UFormField>
+
+          <UFormField label="Custo Médio (R$)" name="precoCustoMedio">
+            <UInput v-model="produtoFormData.precoCustoMedio" class="w-full" />
+          </UFormField>
+
+          <UFormField label="Lucro à Vista (%)" name="lucroVistaPercentual">
+            <UInput v-model="produtoFormData.lucroVistaPercentual" class="w-full" />
+          </UFormField>
+
+          <UFormField label="Lucro à Prazo (%)" name="lucroPrazoPercentual">
+            <UInput v-model="produtoFormData.lucroPrazoPercentual" class="w-full" />
+          </UFormField>
+
+          <UFormField label="Preço à Vista" name="precoVista">
+            <UInput v-model="produtoFormData.precoVista" class="w-full" />
+          </UFormField>
+
+          <UFormField label="Preço à Prazo" name="precoPrazo">
+            <UInput v-model="produtoFormData.precoPrazo" class="w-full" />
+          </UFormField>
+        </div>
+
         <!-- dados complementares -->
+
         <!-- observacoes -->
 
         <UButton type="submit"> Submit </UButton>
