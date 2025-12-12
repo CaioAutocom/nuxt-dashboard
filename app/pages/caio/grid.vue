@@ -205,12 +205,12 @@ if (error.value) {
         <UNavigationMenu :items="links" highlight class="-mx-1 flex-1" />
       </UDashboardToolbar>
     </template>
-
     <template #body>
       <UTable
         :data="data?.items ?? []"
         :columns="columns"
         class="flex-1"
+        :ui="{ tbody: '[&>tr:hover>td]:bg-primary/10 dark:[&>tr:hover>td]:bg-primary/15' }"
         @pointermove="
           (ev: PointerEvent) => {
             anchor.x = ev.clientX
