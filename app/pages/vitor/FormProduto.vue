@@ -145,13 +145,14 @@ async function onSubmit(event: FormSubmitEvent<ProdutoFormDataSchema>) {
     </template>
 
     <template #body>
-      <p class="text-red-500 border p-4">Ainda em construção...</p>
+      <UForm :schema="produtoFormData" :state="produtoFormData" class="space-y-4 2xl:px-50 lg:px-10">
+        <p class="text-red-500 border p-4 mb-4">Ainda em construção...</p>
 
-      <UForm :schema="produtoFormData" :state="produtoFormData" class="space-y-4">
         <!-- cabecalho -->
         <div class="flex gap-8">
           <div class="border border-dashed px-4 w-50 min-h-max content-center text-center">Adicionar Imagem</div>
-          <div class="grid grid-cols-6 gap-4">
+
+          <div class="grid grid-cols-6 gap-4 w-full">
             <UFormField label="Descrição" name="descricao" class="col-span-4">
               <UInput v-model="produtoFormData.descricao" class="w-full" />
             </UFormField>
