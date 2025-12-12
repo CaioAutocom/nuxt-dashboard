@@ -26,13 +26,13 @@ enum GarantiaTipo {
 const schema = z
   .object({
     codigoAlternativo: z
-      .string()
+      .string('o valor deve ser informado')
       .min(1, 'Código alternativo não pode ser vazio')
       .max(50, 'Código alternativo deve ter no máximo 50 caracteres')
       .regex(/^[a-zA-Z0-9\s]+$/, 'Código alternativo não pode conter caracteres especiais')
       .describe('Código alternativo do Produto.'),
 
-    estoqueMax: z.number().min(0, 'Estoque máximo deve ser maior ou igual a 0').max(200).describe('Quantidade máxima permitida em estoque deste produto.'),
+    estoqueMax: z.number('O valor deve ser informado').min(0, 'Estoque máximo deve ser maior ou igual a 0').max(200).describe('Quantidade máxima permitida em estoque deste produto.'),
 
     estoqueMin: z.number().min(0, 'Estoque mínimo deve ser maior ou igual a 0').max(200).describe('Quantidade mínima permitida em estoque deste produto.'),
 
@@ -123,7 +123,7 @@ async function handleSubmitError(event: FormErrorEvent) {
         <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit" @error="handleSubmitError">
           <UTabs :items="tabItems">
             <template #sec1>
-              <UFormField label="asdf" name="codigoAlternativo">
+              <UFormField label="codigoAlternativo" required name="codigoAlternativo">
                 <UInput v-model="state.codigoAlternativo" />
               </UFormField>
 
