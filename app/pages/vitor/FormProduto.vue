@@ -192,31 +192,31 @@ async function onSubmit(event: FormSubmitEvent<ProdutoFormDataSchema>) {
           </UFormField>
 
           <UFormField label="Preço de Custo (R$)" name="precoCusto">
-            <UInput v-model="produtoFormData.precoCusto" class="w-full" />
+            <UInputNumber v-model="produtoFormData.precoCusto" class="w-full" :increment="false" :decrement="false" />
           </UFormField>
 
           <UFormField label="Custo Contábil (R$)" name="precoCustoContabil">
-            <UInput v-model="produtoFormData.precoCustoContabil" class="w-full" />
+            <UInputNumber v-model="produtoFormData.precoCustoContabil" class="w-full" :increment="false" :decrement="false" />
           </UFormField>
 
           <UFormField label="Custo Médio (R$)" name="precoCustoMedio">
-            <UInput v-model="produtoFormData.precoCustoMedio" class="w-full" />
+            <UInputNumber v-model="produtoFormData.precoCustoMedio" class="w-full" :increment="false" :decrement="false" />
           </UFormField>
 
           <UFormField label="Lucro à Vista (%)" name="lucroVistaPercentual">
-            <UInput v-model="produtoFormData.lucroVistaPercentual" class="w-full" />
+            <UInputNumber v-model="produtoFormData.lucroVistaPercentual" class="w-full" :increment="false" :decrement="false" />
           </UFormField>
 
           <UFormField label="Lucro à Prazo (%)" name="lucroPrazoPercentual">
-            <UInput v-model="produtoFormData.lucroPrazoPercentual" class="w-full" />
+            <UInputNumber v-model="produtoFormData.lucroPrazoPercentual" class="w-full" :increment="false" :decrement="false" />
           </UFormField>
 
           <UFormField label="Preço à Vista" name="precoVista">
-            <UInput v-model="produtoFormData.precoVista" class="w-full" />
+            <UInputNumber v-model="produtoFormData.precoVista" class="w-full" :increment="false" :decrement="false" />
           </UFormField>
 
           <UFormField label="Preço à Prazo" name="precoPrazo">
-            <UInput v-model="produtoFormData.precoPrazo" class="w-full" />
+            <UInputNumber v-model="produtoFormData.precoPrazo" class="w-full" :increment="false" :decrement="false" />
           </UFormField>
         </div>
 
