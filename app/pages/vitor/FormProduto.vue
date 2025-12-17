@@ -167,10 +167,10 @@ async function onSubmit(event: FormSubmitEvent<ProdutoFormDataSchema>) {
         <p class="text-red-500 border p-4 mb-4">Ainda em construção...</p>
 
         <!-- form cabecalho -->
-        <div class="flex gap-8">
+        <div class="flex flex-col gap-14">
           <div class="border border-dashed px-4 w-50 min-h-max content-center text-center">Adicionar Imagem</div>
 
-          <div class="grid grid-cols-6 gap-4 w-full">
+          <div class="grid grid-cols-6 gap-20 w-full">
             <UFormField label="Descrição" name="descricao" class="col-span-4">
               <UInput v-model="produtoFormData.descricao" class="w-full" />
             </UFormField>
@@ -201,7 +201,7 @@ async function onSubmit(event: FormSubmitEvent<ProdutoFormDataSchema>) {
           </div>
         </div>
 
-        <UTabs color="neutral" variant="link" :items="formAbas" class="w-full" :ui="{ content: 'space-y-6' }">
+        <UTabs variant="link" :items="formAbas" class="w-full" :ui="{ content: 'space-y-6' }">
           <template #abaGerais>
             <h2 class="text-2xl">Precificação</h2>
             <div class="grid grid-cols-6 gap-4 w-full">
@@ -327,8 +327,6 @@ async function onSubmit(event: FormSubmitEvent<ProdutoFormDataSchema>) {
             </UFormField>
           </template>
         </UTabs>
-
-        <UButton type="submit" class="mt-8"> Submit </UButton>
       </UForm>
     </template>
   </UDashboardPanel>

@@ -16,7 +16,7 @@ const tabItems = [
     slot: 'sec2'
   }
 ]
-
+const formRef = ref()
 enum GarantiaTipo {
   Fabricante = 'Fabricante',
   Loja = 'Loja',
@@ -93,6 +93,10 @@ function findParentTabPanel(el: HTMLElement | null) {
   return null
 }
 
+function submitExternally() {
+  formRef.value?.submit()
+}
+
 async function handleSubmitError(event: FormErrorEvent) {
   if (!event?.errors?.[0]?.id) return
 
@@ -120,20 +124,25 @@ async function handleSubmitError(event: FormErrorEvent) {
         <h1>Form teste</h1>
         <USeparator class="h-10" />
 
-        <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit" @error="handleSubmitError">
+        <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit" @error="handleSubmitError" v-slot="{ errors }" ref="formRef">
           <UTabs :items="tabItems">
             <template #sec1>
-              <UFormField label="codigoAlternativo" required name="codigoAlternativo">
-                <UInput v-model="state.codigoAlternativo" />
-              </UFormField>
+              <div class="flex flex-col">
+                <UFormField label="codigoAlternativo" required name="codigoAlternativo">
+                  <UTooltip :text="errors[0]?.message" v-if="errors">
+                    <UInput v-model="state.codigoAlternativo" />
+                    {{ errors[0]?.message }}
+                  </UTooltip>
+                </UFormField>
 
-              <UFormField label="estoque min" name="estoqueMin">
-                <UInputNumber v-model="state.estoqueMin" />
-              </UFormField>
+                <UFormField label="estoque min" name="estoqueMin">
+                  <UInputNumber v-model="state.estoqueMin" />
+                </UFormField>
 
-              <UFormField label="estoque max" name="estoqueMax">
-                <UInputNumber v-model="state.estoqueMax" />
-              </UFormField>
+                <UFormField label="estoque max" name="estoqueMax">
+                  <UInputNumber v-model="state.estoqueMax" />
+                </UFormField>
+              </div>
             </template>
 
             <template #sec2>
@@ -146,9 +155,8 @@ async function handleSubmitError(event: FormErrorEvent) {
               </UFormField>
             </template>
           </UTabs>
-
-          <UButton type="submit"> Submit </UButton>
         </UForm>
+        <UButton type="submit" @click="submitExternally"> Submit </UButton>
       </section>
     </template>
   </UDashboardPanel>
